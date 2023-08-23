@@ -1,0 +1,120 @@
+
+
+---------------------------CHECKING FOR MANDATORY DATA---------------------------
+
+
+Checking for missing mandatory Data in SupplyFood
+Mandatory Data missing in "Reference for analysis" column of SupplyFood > Automaticaly replaced by 1
+Finished checking for missing mandatory Data in SupplyFood
+
+Checking for missing mandatory Data in SupplyLocalProd
+Mandatory Data missing in "Reference for analysis" column of SupplyLocalProd > Automaticaly replaced by 1
+Finished checking for missing mandatory Data in SupplyLocalProd
+
+Checking for missing mandatory Data in SupplyImport
+Mandatory Data missing in "Reference for analysis" column of SupplyImport > Automaticaly replaced by 1
+Finished checking for missing mandatory Data in SupplyImport
+
+Checking for missing mandatory Data in SupplyExport
+Mandatory Data missing in "Reference for analysis" column of SupplyExport > Automaticaly replaced by 1
+Finished checking for missing mandatory Data in SupplyExport
+
+Checking for missing mandatory Data in ConsumptionFood
+Mandatory Data missing in "Reference for analysis" column of ConsumptionFood > Automaticaly replaced by 1
+Finished checking for missing mandatory Data in ConsumptionFood
+
+
+
+---------------------------CHECKING FOR LIST LIMITED DATA---------------------------
+
+
+Checking for list limited Data in SupplyFood
+Checking for Country
+Checking for Location (Region)
+Checking for Domestic Supply Category
+Checking for Food Staple
+Checking for Food Type
+Checking for Packaged/Bulk
+Checking for Reference for analysis
+Finished checking for list limited Data in SupplyFood
+
+Checking for list limited Data in SupplyLocalProd
+Checking for Country
+Checking for Location (Region)
+Checking for Domestic Supply Category
+Checking for Food Staple
+Checking for Food Type
+Checking for Packaged/Bulk
+Checking for Reference for analysis
+Finished checking for list limited Data in SupplyLocalProd
+
+Checking for list limited Data in SupplyImport
+Checking for Country
+Checking for Location (Region)
+Checking for Domestic Supply Category
+Checking for Food Staple
+Checking for Food Type
+Checking for Packaged/Bulk
+Checking for Reference for analysis
+Finished checking for list limited Data in SupplyImport
+
+Checking for list limited Data in SupplyExport
+Checking for Country
+Checking for Location (Region)
+Checking for Domestic Supply Category
+Checking for Food Staple
+Checking for Food Type
+Checking for Packaged/Bulk
+Checking for Reference for analysis
+Finished checking for list limited Data in SupplyExport
+
+Checking for list limited Data in ConsumptionFood
+Checking for Country
+Checking for Location (Region)
+Checking for Consumption/Use category
+Checking for Food Staple
+Checking for Food Type
+Checking for Packaged/Bulk
+Checking for Reference for analysis
+Finished checking for list limited Data in ConsumptionFood
+
+
+
+---------------------------CHECKING FOR VOLUME DATA---------------------------
+
+
+Checking for Volume Data in SupplyFood
+Data missing in "Unit Quantity" column of SupplyFood > Automaticaly replaced by 1000
+Data missing in "Unit" column of SupplyFood > Automaticaly replaced by MT
+Finished checking for Volume Data in SupplyFood
+
+Checking for Volume Data in SupplyLocalProd
+Finished checking for Volume Data in SupplyLocalProd
+
+Checking for Volume Data in SupplyImport
+Finished checking for Volume Data in SupplyImport
+
+Checking for Volume Data in SupplyExport
+Data missing in "Unit Quantity" column of SupplyExport > Automaticaly replaced by 1000
+Data missing in "Unit Quantity" column of SupplyExport > Automaticaly replaced by 1000
+Data missing in "Unit Quantity" column of SupplyExport > Automaticaly replaced by 1000
+Data missing in "Unit Quantity" column of SupplyExport > Automaticaly replaced by 1000
+Data missing in "Unit Quantity" column of SupplyExport > Automaticaly replaced by 1000
+Data missing in "Unit Quantity" column of SupplyExport > Automaticaly replaced by 1000
+Data missing in "Unit Quantity" column of SupplyExport > Automaticaly replaced by 1000
+Data missing in "Unit Quantity" column of SupplyExport > Automaticaly replaced by 1000
+Data missing in "Unit Quantity" column of SupplyExport > Automaticaly replaced by 1000
+Data missing in "Unit Quantity" column of SupplyExport > Automaticaly replaced by 1000
+Data missing in "Unit Quantity" column of SupplyExport > Automaticaly replaced by 1000
+Data missing in "Unit Quantity" column of SupplyExport > Automaticaly replaced by 1000
+Data missing in "Unit Quantity" column of SupplyExport > Automaticaly replaced by 1000
+Data missing in "Unit Quantity" column of SupplyExport > Automaticaly replaced by 1000
+Finished checking for Volume Data in SupplyExport
+
+Checking for Volume Data in Sheet1
+No volume data in that worksheet, passing
+
+Checking for Volume Data in ConsumptionFood
+Line 3 Volume DATA not available, consumption per capita available, the new volume data is 0 kt/year
+Line 4 Volume DATA not available, Monetary value available, the new volume data is 2000 kt/year
+line 5 both consumption per capita and Monetary value are available, which one do you want to use to calculate the volume? Type "1" for consumption per capita and "2" for monetary value you must choose either 1 or 2 no other value is acceptedyou must choose either 1 or 2 no other value is acceptedyou must choose either 1 or 2 no other value is acceptedyou must choose either 1 or 2 no other value is accepted
