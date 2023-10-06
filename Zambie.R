@@ -4,6 +4,7 @@
 #install.packages('insight')
 #install.packages("xlsx")
 
+setwd("/home/developer/projects/MarketVolumeModel/MarketVolumeModel")
 
 #might need to install javax64 and redefine JAVA_HOME if error
 # Sys.setenv(JAVA_HOME='C:\\Program Files\\Java\\jre-1.8')
