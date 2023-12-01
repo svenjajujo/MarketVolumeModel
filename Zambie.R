@@ -4,12 +4,14 @@
 #install.packages('insight')
 #install.packages("xlsx")
 
-setwd("/home/developer/projects/MarketVolumeModel/MarketVolumeModel")
+#Change below with your project directory, keep only one uncommented setwd() with your correct project directory
+#setwd("/home/developer/projects/MarketVolumeModel/MarketVolumeModel")
+setwd("/Users/sjungjohann/OneDrive - Global Alliance for Improved Nutrition/Data for analysis/R syntax/")
 
-#might need to install javax64 and redefine JAVA_HOME if error
+#Might need to install javax64 and redefine JAVA_HOME if error
 # Sys.setenv(JAVA_HOME='C:\\Program Files\\Java\\jre-1.8')
 
-#import libraries
+#Import libraries (Install packages if not installed already)
 library(tidyverse)
 library(xlsx)
 library(readxl)
@@ -17,6 +19,7 @@ library(dplyr)
 library(insight)
 library(arsenal)
 
+#The following command extends the number of lines of printing your results in the console
 options(scipen = 999)
 
 #Clear console
@@ -28,9 +31,12 @@ cat("\014")
 print_color(('---------------------------'),"violet")
 print_color(('Legend for the color code'),"br_violet")
 print_color(('---------------------------'),"violet")
+
+#For new line 
 cat('\n')
 cat('\n')
 
+#Informative message instruction, different color for different error and info messages etc.
 print_color(c("Start work on a step"),"green")
 cat('\n')
 print_color(c("Completed work on a step"),"bold")
@@ -53,20 +59,23 @@ cat("\n")
 cat("\n")
 
 
-#Ask user if wants to use the console or a text output file
+#It will prompt user to select if wants to use the R console or a text output file ('console.txt')
+#Note:- if typed 'text' then file 'console.txt' will be stored in your current project directoy with all result executions and messages
 print_color(c('To have the output in a text file type "text", otherwise just press the "Return" key ') ,"yellow")
 Console_or_text = readline()
 if (Console_or_text == "text"){
   sink('console.txt')
 }
 
-# import excel data from données sources.xlsx and store it in dedicated dataframes and variable
-# for loop to go through all worksheet
+# Import excel data from excel sheet 'Données_Source.xlsx' and store it in dedicated dataframes(DF) and variables in R environment
+# for loop to go through all worksheet of the 'Données_Source.xlsx' excel
 for (i in excel_sheets("Données_Source.xlsx")) {
   Temporary_Object <- capture.output(cat("Worksheet_",i, sep = ""))
-  #create object with worksheet
+  #Create object with worksheet
+  #Create variable for all worksheet in the R environment and store worksheet name in that variable name
+  #Suppose worksheet name is 'ConsumptionFood' then will create variable with name 'Worksheet_ConsumptionFood' in R environment and store name 'ConsumptionFood' in to it 
   assign(Temporary_Object,i)
-  #create DF with worksheet
+  #Create DF for each worksheet with worksheet name in R environment and store data in to it
   #list of worksheet with first line as header
   worksheet_no1stline <- c("Listes" , "CountryPop")
   if(!(i %in% worksheet_no1stline)){
@@ -75,7 +84,7 @@ for (i in excel_sheets("Données_Source.xlsx")) {
                         skip = 1))
     TemporaryDF <- get(i)
     TemporaryDF <-mutate(TemporaryDF, 'Assumption applied' = NA)
-    assign(i,TemporaryDF)
+    assign(i,TemporaryDF) 
     rm(TemporaryDF)
   } else {
     assign(i, read_xlsx("Données_Source.xlsx",
@@ -89,7 +98,7 @@ cat("\n")
 
 
 
-#for loop to go through each Worksheet and check for mandatory data
+#For loop to go through each Worksheet of the excel 'Données_Source.xlsx' and check for mandatory columns and data
 print_color(('---------------------------'),"violet")
 print_color(('CHECKING FOR MANDATORY DATA'),"br_violet")
 print_color(('---------------------------'),"violet")
@@ -97,15 +106,17 @@ cat('\n')
 cat('\n')
 cat('\n')
 
-Donnée_obligatoire_manquante <- 0
+Donnée_obligatoire_manquante <- 0  #Initialized flag with zero if found missing column and data during checking then flag will update to 1 and at the end of file flag will be cross validated
 for (i in excel_sheets("Données_Source.xlsx")) {
+  # Code to be executed if the pattern "Supply" is found in the string 'i'
+  # It will only look for the exact string "Supply" (case-sensitive) due to fixed = TRUE
   if(grepl("Supply",i,fixed = TRUE)){
     
     print_color(c("Checking for missing mandatory Data in",i),"green")
     cat("\n")
     TemporaryDF <- get(i)
     #in Supply : mandatory = Country, Domestic Supply Category, Food Staple, Reference for analysis
-    #check for mandatory columns existence
+    #Check for mandatory above defined columns existence in each worksheet containing 'Supply' in their name
     
     if (!("Country" %in% colnames(TemporaryDF))){
       print_color(c('Mandatory Column "Country" was not found, please check that the column name as not been changed> Correct it') ,"red")
@@ -129,6 +140,8 @@ for (i in excel_sheets("Données_Source.xlsx")) {
     }
 
     #Check for mandatory Data
+    #in Supply : mandatory data columns = Country, Domestic Supply Category, Food Staple, Reference for analysis
+    # Check for 'NA' value in above each column 
     if (anyNA(TemporaryDF$Country)) {
       print_color(c('Mandatory Data missing in "Country" column of', i ,'> Correct it') ,"red")
       Donnée_obligatoire_manquante <- 1
@@ -155,14 +168,16 @@ for (i in excel_sheets("Données_Source.xlsx")) {
     cat("\n")
     #Storing temporary DF in original DF
     assign(i,TemporaryDF)
-    rm(TemporaryDF)
+    rm(TemporaryDF) #remove temporary DF
   } else if(grepl("Consumption",i,fixed = TRUE)){
+    # Code to be executed if the pattern "Consumption" is found in the string 'i'
+    # It will only look for the exact string "Consumption" (case-sensitive) due to fixed = TRUE
     print_color(c("Checking for missing mandatory Data in",i),"green")
     cat("\n")
     TemporaryDF <- get(i)
     
     #in Consumption : mandatory = Country, Consumption/Use category, Food Staple, Reference for analysis
-    #check for mandatory columns existence
+    #check for mandatory above columns existence
     
     if (!("Country" %in% colnames(TemporaryDF))){
       print_color(c('Mandatory Column "Country" was not found, please check that the column name as not been changed> Correct it') ,"red")
@@ -185,7 +200,9 @@ for (i in excel_sheets("Données_Source.xlsx")) {
       cat("\n")
     }
     
-    #Check for mandatory Data
+    #Check for mandatory column Data
+    #in Consumption : mandatory data column = Country, Consumption/Use category, Food Staple, Reference for analysis
+    # Check for 'NA' value in above each column
     if (anyNA(TemporaryDF$Country)) {
       print_color(c('Mandatory Data missing in "Country" column of', i ,'> Correct it') ,"red")
       Donnée_obligatoire_manquante <- 1
@@ -212,21 +229,21 @@ for (i in excel_sheets("Données_Source.xlsx")) {
     cat("\n")
     #Storing temporary DF in original DF
     assign(i,TemporaryDF)
-    rm(TemporaryDF)
+    rm(TemporaryDF) #remove temporary DF
   } 
 }
 
 cat("\n")
 cat("\n")
 
-#for loop to go through each Worksheet and check for data limited by a list
+#for loop to go through each Worksheet and check for data limited by a list (data should be from predefined list for particular columns, for validation using Lists DF)
 print_color(('---------------------------'),"violet")
 print_color(('CHECKING FOR LIST LIMITED DATA'),"br_violet")
 print_color(('---------------------------'),"violet")
 cat('\n')
 cat('\n')
 cat('\n')
-Donnée_liste_manquante <- 0
+Donnée_liste_manquante <- 0  #Initialized flag with zero if found missing limited column and limited column data with predefined during checking then flag will update to 1 and at the end of file flag will be cross validated
 for (i in excel_sheets("Données_Source.xlsx")) {
   TemporaryDF <- get(i)
   if(grepl("Supply",i,fixed = TRUE)){
@@ -246,11 +263,12 @@ for (i in excel_sheets("Données_Source.xlsx")) {
         Donnée_liste_manquante <- 1
         cat("\n")
       }
-      #check for list limited data
+      #check for list limited data means data should be from predefined data that is in Lists worksheet
       Counter = 3
       Temporary_List = TemporaryDF[[j]]
       Temporary_Listes_List = Listes[[j]]
       for (k in Temporary_List){
+        #Check with already having 'Listes' data
         if((!toupper(k) %in% toupper(Temporary_Listes_List)) & (!is.na(k))){
           
             print_color(capture.output(cat(j,paste0('"',k,'"') ,'In',i,'at line',Counter,'does not belong to the list, correct it or update the list')),"red")
@@ -313,7 +331,8 @@ for (i in excel_sheets("Données_Source.xlsx")) {
 cat("\n")
 cat("\n")
 
-#for loop to go through each Worksheet and check for volume data
+#for loop to go through each Worksheet and check and validate for volume data
+#check if volume data exist and if not, we can deduce it from consumption per capita
 print_color(('---------------------------'),"violet")
 print_color(('CHECKING FOR VOLUME DATA'),"br_violet")
 print_color(('---------------------------'),"violet")
@@ -327,7 +346,7 @@ for (i in excel_sheets("Données_Source.xlsx")) {
     print_color(c("Checking for Volume Data in",i),"green")
     cat("\n")
     Counter = 3
-    #Loop to check if volume data exist and if not, can we deduce it from consumption per capita
+    #Loop to check if volume data exist and if not, we can deduce it from consumption per capita
     if ('Volume Value (unit/y)' %in% colnames(TemporaryDF)){
       for (j in TemporaryDF$'Volume Value (unit/y)') {
         Found_Country = FALSE
@@ -347,7 +366,7 @@ for (i in excel_sheets("Données_Source.xlsx")) {
             cat("\n")
           }
         }
-        
+        #check if volume not exist then calculate by using either consumption per capita (Consumption per Capita (kg/y)) or monetary value (Monetary Value of 1kt)
         if (is.na(j)){
           #check if either consumption per capita or monetary value data are available
           if (!is.na(TemporaryDF$'Consumption per Capita (kg/y)'[Counter-2])){
@@ -356,6 +375,7 @@ for (i in excel_sheets("Données_Source.xlsx")) {
           if (!is.na(TemporaryDF$'Monetary Value of 1kt'[Counter-2])){
             monetary_available <- 1
           }
+          #check if both consumption per capita and monetary value are present then give choice to select any of one 
           if (per_capita_available == 1 && monetary_available == 1){
             print_color(c('line',Counter,'both consumption per capita and Monetary value are available, which one do you want to use to calculate the volume? Type "1" for consumption per capita and "2" for monetary value '),"yellow")
             choice <- readline()
@@ -364,8 +384,10 @@ for (i in excel_sheets("Données_Source.xlsx")) {
               choice <- readline()
             }
           }
+          #check with consumption per capita and calculate using this
           if (choice == 1 || (per_capita_available == 1 && monetary_available == 0)){
             Counter_k = 1
+            #get population of the matching country from CountryPop DF and update 'Found_Country' flag to TRUE
             for (k in CountryPop$Country) {
               if (toupper(TemporaryDF$'Country'[Counter-2]) == toupper(k)) {
                 Population = as.integer(CountryPop$Population[Counter_k]) 
@@ -374,6 +396,7 @@ for (i in excel_sheets("Données_Source.xlsx")) {
               }
               Counter_k = Counter_k+1
             }
+            #if country found then go for the volume calculation
             if (Found_Country) {
               #the calculated volume is the population x consumption per capita in kg/y divided by 1 million (to obtain kt/y)
               New_Volume = Population*TemporaryDF$'Consumption per Capita (kg/y)'[Counter-2]/1000000
@@ -391,6 +414,7 @@ for (i in excel_sheets("Données_Source.xlsx")) {
             
             Found_Country = FALSE
           }
+          #check with monetary value and calculate using this
           if (choice == 2 || (per_capita_available == 0 && monetary_available == 1)){
             New_Volume = TemporaryDF$'Monetary Value'[Counter-2]/TemporaryDF$'Monetary Value of 1kt'[Counter-2]
             TemporaryDF$'Volume Value (unit/y)'[Counter-2] = New_Volume
@@ -417,12 +441,12 @@ for (i in excel_sheets("Données_Source.xlsx")) {
     assign(i,TemporaryDF)
     cat("\n")
     cat("\n")
-    rm(TemporaryDF)
+    rm(TemporaryDF) #remove temporary DF
 }
 cat("\n")
 cat("\n")
 
-#for loop to go through each Worksheet and perform cross validation
+#for loop to go through each Worksheet and perform cross validation for each above checking
 cross_validation <- 1
 if(Donnée_obligatoire_manquante == 1) {
   print_color(c('Mandatory Data still missing > Correct it, cross validation cannot be done') ,"red")
@@ -556,15 +580,16 @@ if (cross_validation == 1) {
 
 
 #export to Excel
-#check if the export file export and delete it
+#check if the 'Zambia_MM.xlsx' excel file already there then delete it
 if (file.exists("Zambia_MM.xlsx")){
   file.remove("Zambia_MM.xlsx")
   print_color(c('Zambia_MM.xlsx file already exist, deleting it'),"cyan")
   cat('\n')
 }
+#check if the 'Zambia_MM_all_in_one.xlsx' excel file already there then delete it
 if (file.exists("Zambia_MM_all_in_one.xlsx")){
   file.remove("Zambia_MM_all_in_one.xlsx")
-  print_color(c('Zambia_MM.xlsx file already exist, deleting it'),"cyan")
+  print_color(c('Zambia_MM_all_in_one.xlsx file already exist, deleting it'),"cyan")
   cat('\n')
 }
 
